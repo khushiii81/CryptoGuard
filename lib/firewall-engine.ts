@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-export type Zone = 'WAN_TO_DMZ' | 'DMZ_TO_LAN' | 'WAN_TO_LAN' | 'ANY';
+export type Zone = 'WAN_TO_DMZ' | 'DMZ_TO_LAN' | 'WAN_TO_LAN' | 'LAN_TO_WAN' | 'LAN_TO_DMZ' | 'DMZ_TO_WAN' | 'ANY';
 export type Protocol = 'TCP' | 'UDP' | 'ICMP' | 'ANY';
 export type Action = 'ALLOW' | 'DENY' | 'REJECT';
 export type ConnectionState = 'SYN_SENT' | 'ESTABLISHED' | 'FIN_WAIT' | 'CLOSED';
@@ -118,9 +118,16 @@ function detectZone(srcIp: string, destIp: string): Zone {
   const destInDmz = dmzPrefixes.some(p => destIp.startsWith(p));
   const destInLan = lanPrefixes.some(p => destIp.startsWith(p));
 
-  if (!srcInDmz && !srcInLan && destInDmz) return 'WAN_TO_DMZ';
-  if (!srcInDmz && !srcInLan && destInLan) return 'WAN_TO_LAN';
+  const srcInWan = !srcInDmz && !srcInLan;
+  const destInWan = !destInDmz && !destInLan;
+
+  if (srcInWan && destInDmz) return 'WAN_TO_DMZ';
+  if (srcInWan && destInLan) return 'WAN_TO_LAN';
   if (srcInDmz && destInLan) return 'DMZ_TO_LAN';
+  if (srcInLan && destInWan) return 'LAN_TO_WAN';
+  if (srcInLan && destInDmz) return 'LAN_TO_DMZ';
+  if (srcInDmz && destInWan) return 'DMZ_TO_WAN';
+  
   return 'ANY';
 }
 

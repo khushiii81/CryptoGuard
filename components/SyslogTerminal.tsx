@@ -59,13 +59,17 @@ export default function SyslogTerminal({ maxHeight = '320px', showHeader = true 
   const [filter, setFilter] = useState<SyslogLevel | 'ALL'>('ALL');
   const [search, setSearch] = useState('');
   const [lastCount, setLastCount] = useState(0);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Auto scroll when not frozen
   useEffect(() => {
     if (!frozen && syslog.length !== lastCount) {
       setLastCount(syslog.length);
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      requestAnimationFrame(() => {
+        if (containerRef.current) {
+          containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+      });
     }
   }, [syslog.length, frozen, lastCount]);
 
@@ -147,6 +151,7 @@ export default function SyslogTerminal({ maxHeight = '320px', showHeader = true 
 
       {/* Log entries */}
       <div
+        ref={containerRef}
         className="overflow-y-auto font-mono text-xs"
         style={{ maxHeight, minHeight: '120px' }}
       >
@@ -155,9 +160,8 @@ export default function SyslogTerminal({ maxHeight = '320px', showHeader = true 
             No entries match current filter.
           </div>
         ) : (
-          <div className="flex flex-col-reverse">
-            <div ref={bottomRef} />
-            {filtered.map(entry => (
+          <div className="flex flex-col">
+            {[...filtered].reverse().map(entry => (
               <SyslogLine
                 key={entry.id}
                 entry={entry}

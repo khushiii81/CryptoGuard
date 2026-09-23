@@ -24,6 +24,9 @@ const ZONE_PATHS: Record<string, string[]> = {
   WAN_TO_DMZ:  ['internet', 'extFw', 'dmzWeb'],
   WAN_TO_LAN:  ['internet', 'extFw', 'intFw', 'lanDb'],
   DMZ_TO_LAN:  ['dmzWeb',  'intFw', 'lanDb'],
+  LAN_TO_WAN:  ['lanDb', 'intFw', 'extFw', 'internet'],
+  LAN_TO_DMZ:  ['lanDb', 'intFw', 'dmzWeb'],
+  DMZ_TO_WAN:  ['dmzWeb', 'extFw', 'internet'],
   ANY:         ['internet', 'extFw', 'dmzWeb'],
 };
 
@@ -31,6 +34,9 @@ const GATE_FOR_ZONE: Record<string, string> = {
   WAN_TO_DMZ: 'extFw',
   WAN_TO_LAN: 'extFw',
   DMZ_TO_LAN: 'intFw',
+  LAN_TO_WAN: 'intFw',
+  LAN_TO_DMZ: 'intFw',
+  DMZ_TO_WAN: 'extFw',
   ANY:        'extFw',
 };
 
@@ -188,15 +194,11 @@ function PacketAnim({ path, gateId, action, onDone }: PacketAnimProps) {
         const to   = nodeAt(effectivePath[i + 1]);
         setSegIdx(i);
 
-        // mid-control point for bezier feel
-        const mx = (from.x + to.x) / 2;
-        const my = (from.y + to.y) / 2 - 20;
-
         await controls.start({
-          x: [from.x, mx, to.x],
-          y: [from.y, my, to.y],
-          scale: [1, 1.3, 1],
-          transition: { duration: 0.55, ease: [0.4, 0, 0.2, 1] },
+          x: [from.x, to.x],
+          y: [from.y, to.y],
+          scale: [1, 1],
+          transition: { duration: 0.55, ease: 'linear' },
         });
 
         if (cancelled) return;
@@ -248,7 +250,11 @@ function PacketAnim({ path, gateId, action, onDone }: PacketAnimProps) {
     <>
       {/* The main packet orb */}
       {(phase === 'travel' || (phase === 'impact' && (action === 'ALLOW' || action === 'STATEFUL'))) && (
-        <motion.g animate={controls} initial={{ x: startNode.x, y: startNode.y }}>
+        <motion.g 
+           animate={phase === 'travel' ? controls : undefined} 
+           initial={{ x: startNode.x, y: startNode.y }}
+           style={phase === 'impact' ? { x: particlePos.x, y: particlePos.y } : {}}
+        >
           {/* Glow */}
           <motion.circle
             r={14} fill={color} opacity={0.15}

@@ -11,7 +11,7 @@ const sections = [
   {
     id: 'defense-in-depth',
     title: 'Defense-in-Depth Architecture',
-    icon: <Shield className="w-5 h-5" />,
+    icon: <img src="/icon.png" alt="Logo" className="w-5 h-5 rounded-sm drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />,
     color: '#00F0FF',
     content: [
       {

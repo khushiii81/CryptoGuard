@@ -325,7 +325,7 @@ export default function RuleManager() {
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2">
-          <Shield className="w-4 h-4 text-[#00F0FF]" />
+          <img src="/icon.png" alt="Logo" className="w-4 h-4 rounded-sm drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
           <span className="font-mono text-sm font-bold text-white">Rule Base</span>
           <span className="font-mono text-xs text-slate-500">({rules.length} rules)</span>
         </div>

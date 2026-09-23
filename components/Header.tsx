@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Shield, X, Menu, Zap, FileText, ScrollText, BookOpen, Activity } from 'lucide-react';
+import { X, Menu, Zap, FileText, ScrollText, BookOpen, Activity } from 'lucide-react';
 
 const navLinks = [
   { href: '/',          label: 'Overview',     icon: <Activity   className="w-3.5 h-3.5" />, code: '01' },

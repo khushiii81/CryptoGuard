@@ -294,7 +294,7 @@ export default function SimulatorPage() {
             <div className="flex gap-3">
               <Link href="/policies"
                 className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl font-mono text-xs font-bold border border-[#1A2540] text-slate-400 hover:text-[#00F0FF] hover:border-[#00F0FF]/30 transition-all">
-                <Shield className="w-3.5 h-3.5" />
+                <img src="/icon.png" alt="Logo" className="w-3.5 h-3.5 rounded-sm drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
                 Rule Base
               </Link>
               <Link href="/logs"

@@ -69,7 +69,7 @@ export default function HomePage() {
               <Link href="/docs"
                 className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl font-mono text-sm font-bold border border-slate-700 text-slate-300 hover:border-[#00F0FF] hover:text-[#00F0FF] transition-all duration-200"
                 style={{ background: 'rgba(17,23,38,0.6)' }}>
-                <Shield className="w-4 h-4" />
+                <img src="/icon.png" alt="CryptoGuard Logo" className="w-4 h-4 rounded-sm drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
                 How It Works
               </Link>
             </div>

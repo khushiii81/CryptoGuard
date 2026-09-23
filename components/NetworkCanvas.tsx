@@ -194,17 +194,27 @@ function PacketAnim({ path, gateId, action, onDone }: PacketAnimProps) {
         dists.push(totalDist);
       }
       const times = dists.map(d => totalDist > 0 ? d / totalDist : 0);
-      const duration = (totalDist / 200) * 0.45; // 0.45s per 200 pixels
+      const duration = Math.max((totalDist / 200) * 0.45, 0.3);
 
-      await controls.start({
-        x: xPath,
-        y: yPath,
-        transition: { 
-          duration: Math.max(duration, 0.3), 
-          ease: 'linear',
-          times
-        },
-      });
+      if (effectivePath.length === 2) {
+        // Single segment: animate directly to destination to avoid Framer Motion array jump bugs
+        await controls.start({
+          x: xPath[1],
+          y: yPath[1],
+          transition: { duration, ease: 'linear' }
+        });
+      } else if (effectivePath.length > 2) {
+        // Multi-segment: use array keyframes
+        await controls.start({
+          x: xPath,
+          y: yPath,
+          transition: { 
+            duration, 
+            ease: 'linear',
+            times
+          },
+        });
+      }
 
       // ── Impact phase ──
       if (cancelled) return;

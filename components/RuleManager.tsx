@@ -32,6 +32,7 @@ import { FirewallRule, PolicyConflict, Action, Protocol, Zone } from '@/lib/fire
 function SortableRuleRow({
   rule,
   conflicts,
+  index,
   onDelete,
   onToggle,
 }: {

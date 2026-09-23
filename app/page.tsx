@@ -151,8 +151,8 @@ export default function HomePage() {
               style={{ background: '#0A0F1E', borderColor: '#00F0FF30', color: '#00F0FF' }}>
               ZERO-TRUST READY
             </div>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
       </section>
 
       {/* ── Features ── */}

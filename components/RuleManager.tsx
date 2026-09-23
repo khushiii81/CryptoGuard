@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import {
   DndContext,
@@ -31,11 +32,13 @@ import { FirewallRule, PolicyConflict, Action, Protocol, Zone } from '@/lib/fire
 function SortableRuleRow({
   rule,
   conflicts,
+  index,
   onDelete,
   onToggle,
 }: {
   rule: FirewallRule;
   conflicts: PolicyConflict[];
+  index: number;
   onDelete: () => void;
   onToggle: () => void;
 }) {
@@ -59,7 +62,10 @@ function SortableRuleRow({
       } ${!rule.enabled ? 'opacity-40' : ''}`}
       id={`rule-${rule.id}`}
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, delay: index * 0.05, ease: 'easeOut' }}
         className="flex items-center gap-3 px-4 py-3"
         style={{
           background: hasCritical ? 'rgba(255,51,102,0.04)' : 'rgba(17,23,38,0.8)',
@@ -137,7 +143,7 @@ function SortableRuleRow({
         >
           <Trash2 className="w-4 h-4" />
         </button>
-      </div>
+      </motion.div>
 
       {/* Expanded Details */}
       {expanded && (
@@ -395,11 +401,12 @@ export default function RuleManager() {
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={rules.map(r => r.id)} strategy={verticalListSortingStrategy}>
           <div className="space-y-2">
-            {rules.map(rule => (
+            {rules.map((rule, index) => (
               <SortableRuleRow
                 key={rule.id}
                 rule={rule}
                 conflicts={conflicts}
+                index={index}
                 onDelete={() => deleteRule(rule.id)}
                 onToggle={() => toggleRule(rule.id)}
               />

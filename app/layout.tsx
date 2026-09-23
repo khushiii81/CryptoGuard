@@ -63,9 +63,9 @@ export const metadata: Metadata = {
       'Stateful packet inspection, DMZ isolation, sequential ACL evaluation. Inject packets. Watch them get blocked.',
     images: [
       {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
+        url: '/icon.png',
+        width: 1024,
+        height: 1024,
         alt: 'CryptoGuard Firewall Simulator',
       },
     ],
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     title: 'CryptoGuard — Firewall & Policy Engine Simulator',
     description:
       'Stateful packet inspection, DMZ isolation, sequential ACL. Inject packets. Watch them get blocked.',
-    images: ['/og-image.png'],
+    images: ['/icon.png'],
     creator: '@cryptoguard',
   },
   alternates: {

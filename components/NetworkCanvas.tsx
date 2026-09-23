@@ -19,25 +19,15 @@ const NODES = {
   lanWs:     { x: 760, y: 340, label: 'WORKSTATION',   sub: '192.168.1.50',        color: '#10B981', ring: '#10B98140' },
 };
 
-// Paths: array of nodeIds the packet traverses
-const ZONE_PATHS: Record<string, string[]> = {
-  WAN_TO_DMZ:  ['internet', 'extFw', 'dmzWeb'],
-  WAN_TO_LAN:  ['internet', 'extFw', 'intFw', 'lanDb'],
-  DMZ_TO_LAN:  ['dmzWeb',  'intFw', 'lanDb'],
-  LAN_TO_WAN:  ['lanDb', 'intFw', 'extFw', 'internet'],
-  LAN_TO_DMZ:  ['lanDb', 'intFw', 'dmzWeb'],
-  DMZ_TO_WAN:  ['dmzWeb', 'extFw', 'internet'],
-  ANY:         ['internet', 'extFw', 'dmzWeb'],
-};
-
-const GATE_FOR_ZONE: Record<string, string> = {
-  WAN_TO_DMZ: 'extFw',
-  WAN_TO_LAN: 'extFw',
-  DMZ_TO_LAN: 'intFw',
-  LAN_TO_WAN: 'intFw',
-  LAN_TO_DMZ: 'intFw',
-  DMZ_TO_WAN: 'extFw',
-  ANY:        'extFw',
+const getNodeForIp = (ip: string): string => {
+  if (ip === '192.168.100.10') return 'dmzWeb';
+  if (ip === '192.168.100.20') return 'dmzMail';
+  if (ip === '10.0.0.5') return 'lanDb';
+  if (ip === '192.168.1.50') return 'lanWs';
+  // Fallbacks
+  if (ip.startsWith('192.168.100.')) return 'dmzWeb';
+  if (ip.startsWith('10.0.') || ip.startsWith('192.168.1.')) return 'lanDb';
+  return 'internet';
 };
 
 // Connection lines to always render
@@ -403,8 +393,35 @@ export default function NetworkCanvas({ lastResult }: NetworkCanvasProps) {
     processedId.current = id;
 
     const zone = lastResult.zone;
-    const rawPath = ZONE_PATHS[zone] || ZONE_PATHS['ANY'];
-    const gateId  = GATE_FOR_ZONE[zone] || 'extFw';
+    
+    const srcNodeId = getNodeForIp(lastResult.packet.srcIp);
+    const destNodeId = getNodeForIp(lastResult.packet.destIp);
+
+    let rawPath: string[];
+    if (zone === 'WAN_TO_DMZ') {
+      rawPath = ['internet', 'extFw', destNodeId];
+    } else if (zone === 'WAN_TO_LAN') {
+      rawPath = ['internet', 'extFw', 'intFw', destNodeId];
+    } else if (zone === 'DMZ_TO_LAN') {
+      rawPath = [srcNodeId, 'intFw', destNodeId];
+    } else if (zone === 'LAN_TO_WAN') {
+      rawPath = [srcNodeId, 'intFw', 'extFw', 'internet'];
+    } else if (zone === 'LAN_TO_DMZ') {
+      rawPath = [srcNodeId, 'intFw', destNodeId];
+    } else if (zone === 'DMZ_TO_WAN') {
+      rawPath = [srcNodeId, 'extFw', 'internet'];
+    } else {
+      rawPath = [srcNodeId, destNodeId];
+    }
+
+    let gateId = 'extFw';
+    if (zone === 'DMZ_TO_LAN' || zone === 'LAN_TO_WAN' || zone === 'LAN_TO_DMZ') {
+      gateId = 'intFw';
+    }
+    // ensure gateId is valid in the path
+    if (!rawPath.includes(gateId)) {
+      gateId = rawPath[0];
+    }
 
     let action: 'ALLOW' | 'DENY' | 'REJECT' | 'STATEFUL';
     if (lastResult.isStatefulHit) action = 'STATEFUL';

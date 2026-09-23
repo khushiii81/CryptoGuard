@@ -182,34 +182,43 @@ function PacketAnim({ path, gateId, action, onDone }: PacketAnimProps) {
   const effectivePath = (action === 'ALLOW' || action === 'STATEFUL') ? path : path.slice(0, gateIndex + 1);
 
   const nodeAt = (id: string) => NODES[id as NodeKey];
+  const destNode = nodeAt(effectivePath[effectivePath.length - 1]);
 
   useEffect(() => {
     let cancelled = false;
     async function run() {
       setPhase('travel');
 
-      for (let i = 0; i < effectivePath.length - 1; i++) {
-        if (cancelled) return;
-        const from = nodeAt(effectivePath[i]);
-        const to   = nodeAt(effectivePath[i + 1]);
-        setSegIdx(i);
-
-        await controls.start({
-          x: [from.x, to.x],
-          y: [from.y, to.y],
-          scale: [1, 1],
-          transition: { duration: 0.55, ease: 'linear' },
-        });
-
-        if (cancelled) return;
-        setParticlePos({ x: to.x, y: to.y });
+      // Build continuous path array
+      const xPath = effectivePath.map(id => nodeAt(id).x);
+      const yPath = effectivePath.map(id => nodeAt(id).y);
+      
+      // Calculate distances for linear timing
+      let totalDist = 0;
+      const dists = [0];
+      for (let i = 1; i < effectivePath.length; i++) {
+        const p1 = nodeAt(effectivePath[i - 1]);
+        const p2 = nodeAt(effectivePath[i]);
+        const d = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+        totalDist += d;
+        dists.push(totalDist);
       }
+      const times = dists.map(d => totalDist > 0 ? d / totalDist : 0);
+      const duration = (totalDist / 200) * 0.45; // 0.45s per 200 pixels
+
+      await controls.start({
+        x: xPath,
+        y: yPath,
+        transition: { 
+          duration: Math.max(duration, 0.3), 
+          ease: 'linear',
+          times
+        },
+      });
 
       // ── Impact phase ──
       if (cancelled) return;
       setPhase('impact');
-
-      const gateNode = nodeAt(gateId);
 
       if (action === 'DENY' || action === 'REJECT') {
         // Spawn fragments
@@ -217,8 +226,8 @@ function PacketAnim({ path, gateId, action, onDone }: PacketAnimProps) {
           const angle = (i / 16) * Math.PI * 2;
           return {
             id: i,
-            x: gateNode.x,
-            y: gateNode.y,
+            x: destNode.x,
+            y: destNode.y,
             vx: Math.cos(angle) * (15 + Math.random() * 20),
             vy: Math.sin(angle) * (15 + Math.random() * 20),
             color: i % 2 === 0 ? '#FF3366' : '#FF336688',
@@ -251,9 +260,8 @@ function PacketAnim({ path, gateId, action, onDone }: PacketAnimProps) {
       {/* The main packet orb */}
       {(phase === 'travel' || (phase === 'impact' && (action === 'ALLOW' || action === 'STATEFUL'))) && (
         <motion.g 
-           animate={phase === 'travel' ? controls : undefined} 
+           animate={controls} 
            initial={{ x: startNode.x, y: startNode.y }}
-           style={phase === 'impact' ? { x: particlePos.x, y: particlePos.y } : {}}
         >
           {/* Glow */}
           <motion.circle

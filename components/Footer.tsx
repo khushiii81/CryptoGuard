@@ -112,7 +112,7 @@ export default function Footer() {
 
             <div className="mt-6 pt-4 border-t border-slate-border/50">
               <a
-                href="https://github.com"
+                href="https://github.com/khushiii81/CryptoGuard"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"

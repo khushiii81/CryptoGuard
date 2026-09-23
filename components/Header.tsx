@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { Shield, X, Menu, Zap, FileText, ScrollText, BookOpen, Activity } from 'lucide-react';
 
 const navLinks = [
@@ -25,7 +26,10 @@ export default function Header() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); }, [pathname]);
+  useEffect(() => {
+    setMobileOpen(false);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [pathname]);
 
   return (
     <>
@@ -47,12 +51,7 @@ export default function Header() {
                 transition={{ type: 'spring', stiffness: 300 }}
                 className="relative"
               >
-                <Shield className="w-7 h-7 text-[#00F0FF]" strokeWidth={1.5} />
-                <motion.div
-                  className="absolute inset-0 rounded-full"
-                  animate={{ boxShadow: ['0 0 0px rgba(0,240,255,0)', '0 0 16px rgba(0,240,255,0.6)', '0 0 0px rgba(0,240,255,0)'] }}
-                  transition={{ duration: 2.5, repeat: Infinity }}
-                />
+                <Image src="/icon.png" alt="CryptoGuard Logo" width={32} height={32} className="w-8 h-8 rounded-md" />
               </motion.div>
               <div>
                 <div className="font-mono font-black text-base leading-none tracking-wide">
@@ -160,7 +159,7 @@ export default function Header() {
             >
               {/* Drawer header */}
               <div className="flex items-center gap-3 px-5 py-4 border-b border-[#1A2540]">
-                <Shield className="w-6 h-6 text-[#00F0FF]" strokeWidth={1.5} />
+                <Image src="/icon.png" alt="CryptoGuard Logo" width={24} height={24} className="w-6 h-6 rounded-sm" />
                 <span className="font-mono font-black text-white">Crypto<span className="text-[#00F0FF]">Guard</span></span>
                 <button onClick={() => setMobileOpen(false)} className="ml-auto text-slate-600 hover:text-white">
                   <X className="w-5 h-5" />

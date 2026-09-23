@@ -18,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://cryptoguard.vercel.app'),
+  metadataBase: new URL('https://cryptoguard.luckyverse.tech'),
   title: {
     default: 'CryptoGuard — Firewall & Policy Engine Simulator',
     template: '%s | CryptoGuard',
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://cryptoguard.vercel.app',
+    url: 'https://cryptoguard.luckyverse.tech',
     siteName: 'CryptoGuard',
     title: 'CryptoGuard — Firewall & Policy Engine Simulator',
     description:
@@ -78,8 +78,15 @@ export const metadata: Metadata = {
     creator: '@cryptoguard',
   },
   alternates: {
-    canonical: 'https://cryptoguard.vercel.app',
+    canonical: 'https://cryptoguard.luckyverse.tech',
   },
+};
+export const viewport: import('next').Viewport = {
+  themeColor: '#0A0D14',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: true,
 };
 
 export default function RootLayout({
@@ -89,10 +96,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="theme-color" content="#0A0D14" />
-      </head>
       <body className="min-h-screen flex flex-col bg-obsidian text-slate-200">
         <AnimatedBackground />
         <Header />

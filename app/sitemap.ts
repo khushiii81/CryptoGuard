@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://cryptoguard.vercel.app';
+  const baseUrl = 'https://cryptoguard.luckyverse.tech';
   const lastModified = new Date();
 
   return [

@@ -21,8 +21,8 @@ const packetSchema = z.object({
 // ─── Quick Presets ────────────────────────────────────────────────────────────
 const presets = [
   {
-    id: 'preset-a',
-    label: 'A: HTTP → DMZ',
+    id: 'preset-web',
+    label: 'Web Traffic (DMZ)',
     description: 'Legitimate HTTP to DMZ Web Server',
     data: {
       srcIp: '203.0.113.50',
@@ -35,9 +35,51 @@ const presets = [
     color: '#10B981',
   },
   {
-    id: 'preset-b',
-    label: 'B: DB Intrusion',
-    description: 'Direct Database Intrusion Attempt',
+    id: 'preset-mail',
+    label: 'Mail Traffic (DMZ)',
+    description: 'Legitimate SMTP to DMZ Mail Server',
+    data: {
+      srcIp: '203.0.113.50',
+      destIp: '192.168.100.20',
+      srcPort: '51234',
+      destPort: '25',
+      protocol: 'TCP' as Protocol,
+      tcpFlags: ['SYN'],
+    },
+    color: '#10B981',
+  },
+  {
+    id: 'preset-db-lateral',
+    label: 'Lateral DB Access',
+    description: 'DMZ Web Server querying LAN Database',
+    data: {
+      srcIp: '192.168.100.10',
+      destIp: '10.0.0.5',
+      srcPort: '54321',
+      destPort: '3306',
+      protocol: 'TCP' as Protocol,
+      tcpFlags: ['SYN'],
+    },
+    color: '#10B981',
+  },
+  {
+    id: 'preset-malicious-lateral',
+    label: 'Lateral Malware',
+    description: 'Compromised Mail Server attacking Workstation',
+    data: {
+      srcIp: '192.168.100.20',
+      destIp: '192.168.1.50',
+      srcPort: '44444',
+      destPort: '445',
+      protocol: 'TCP' as Protocol,
+      tcpFlags: ['SYN'],
+    },
+    color: '#FF3366',
+  },
+  {
+    id: 'preset-db-intrusion',
+    label: 'External DB Intrusion',
+    description: 'Direct Database Intrusion Attempt from WAN',
     data: {
       srcIp: '198.51.100.99',
       destIp: '10.0.0.5',
@@ -49,9 +91,9 @@ const presets = [
     color: '#FF3366',
   },
   {
-    id: 'preset-c',
-    label: 'C: SSH Brute Force',
-    description: 'SSH Brute Force to Internal LAN',
+    id: 'preset-ssh-brute',
+    label: 'SSH Brute Force',
+    description: 'SSH Brute Force from WAN to Internal Workstation',
     data: {
       srcIp: '198.51.100.77',
       destIp: '192.168.1.50',
@@ -59,20 +101,6 @@ const presets = [
       destPort: '22',
       protocol: 'TCP' as Protocol,
       tcpFlags: ['SYN'],
-    },
-    color: '#FF3366',
-  },
-  {
-    id: 'preset-d',
-    label: 'D: Spoofed ACK',
-    description: 'Malicious Returning Payload',
-    data: {
-      srcIp: '192.168.100.10',
-      destIp: '192.168.100.10',
-      srcPort: '80',
-      destPort: '51234',
-      protocol: 'TCP' as Protocol,
-      tcpFlags: ['ACK'],
     },
     color: '#F59E0B',
   },

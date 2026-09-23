@@ -65,7 +65,7 @@ export default function SyslogTerminal({ maxHeight = '320px', showHeader = true 
   useEffect(() => {
     if (!frozen && syslog.length !== lastCount) {
       setLastCount(syslog.length);
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }, [syslog.length, frozen, lastCount]);
 

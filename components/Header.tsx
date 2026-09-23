@@ -80,10 +80,11 @@ export default function Header() {
                     hidden: { opacity: 0, y: -10 },
                     show: { opacity: 1, y: 0 }
                   }}>
-                    <Link href={link.href}
-                    className={`relative group flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-[11px] font-bold tracking-wide transition-all duration-200 ${
-                      active ? 'text-[#00F0FF]' : 'text-slate-500 hover:text-slate-200'
-                    }`}
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <Link href={link.href}
+                      className={`relative group flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-[11px] font-bold tracking-wide transition-colors duration-200 ${
+                        active ? 'text-[#00F0FF]' : 'text-slate-500 hover:text-slate-200'
+                      }`}
                     style={active ? { background: 'rgba(0,240,255,0.07)' } : {}}>
                     <span>{link.icon}</span>
                     <span>{link.label}</span>
@@ -104,8 +105,9 @@ export default function Header() {
                         className="absolute -bottom-[1px] left-2 right-2 h-[2px] rounded-full"
                         style={{ background: '#00F0FF', boxShadow: '0 0 8px #00F0FF' }}
                       />
-                    )}
-                    </Link>
+                      )}
+                      </Link>
+                    </motion.div>
                   </motion.div>
                 );
               })}

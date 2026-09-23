@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { z } from 'zod';
 import { Zap, ChevronDown, RefreshCw, AlertCircle } from 'lucide-react';
 import { useFirewallStore } from '@/store/firewallStore';
@@ -221,11 +222,13 @@ export default function PacketInjector({ onResult }: PacketInjectorProps) {
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {presets.map(preset => (
-            <button
+            <motion.button
               key={preset.id}
               id={preset.id}
               onClick={() => applyPreset(preset)}
-              className="flex flex-col gap-1 p-3 rounded-xl text-left transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              whileHover={{ scale: 1.02, backgroundColor: `${preset.color}15` }}
+              whileTap={{ scale: 0.98 }}
+              className="flex flex-col gap-1 p-3 rounded-xl text-left transition-colors duration-200"
               style={{
                 background: `${preset.color}08`,
                 border: `1px solid ${preset.color}25`,
@@ -235,7 +238,7 @@ export default function PacketInjector({ onResult }: PacketInjectorProps) {
                 {preset.label}
               </span>
               <span className="font-mono text-[10px] text-slate-500 leading-tight">{preset.description}</span>
-            </button>
+            </motion.button>
           ))}
         </div>
       </div>
@@ -318,11 +321,13 @@ export default function PacketInjector({ onResult }: PacketInjectorProps) {
         </label>
         <div className="flex gap-2">
           {protocols.map(p => (
-            <button
+            <motion.button
               key={p}
               id={`protocol-${p.toLowerCase()}`}
               onClick={() => setForm(f => ({ ...f, protocol: p }))}
-              className="flex-1 py-2 rounded-lg font-mono text-xs font-bold transition-all duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex-1 py-2 rounded-lg font-mono text-xs font-bold transition-colors duration-200"
               style={
                 form.protocol === p
                   ? { background: 'rgba(0,240,255,0.12)', border: '1px solid rgba(0,240,255,0.5)', color: '#00F0FF' }
@@ -330,7 +335,7 @@ export default function PacketInjector({ onResult }: PacketInjectorProps) {
               }
             >
               {p}
-            </button>
+            </motion.button>
           ))}
         </div>
       </div>
@@ -345,11 +350,13 @@ export default function PacketInjector({ onResult }: PacketInjectorProps) {
             {tcpFlagOptions.map(flag => {
               const isActive = form.tcpFlags.includes(flag);
               return (
-                <button
+                <motion.button
                   key={flag}
                   id={`flag-${flag.toLowerCase()}`}
                   onClick={() => toggleFlag(flag)}
-                  className="px-3 py-1.5 rounded-lg font-mono text-[11px] font-bold transition-all duration-200"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-3 py-1.5 rounded-lg font-mono text-[11px] font-bold transition-colors duration-200"
                   style={
                     isActive
                       ? { background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.4)', color: '#10B981' }
@@ -357,7 +364,7 @@ export default function PacketInjector({ onResult }: PacketInjectorProps) {
                   }
                 >
                   {flag}
-                </button>
+                </motion.button>
               );
             })}
           </div>
@@ -386,11 +393,13 @@ export default function PacketInjector({ onResult }: PacketInjectorProps) {
       </div>
 
       {/* Inject Button */}
-      <button
+      <motion.button
         id="inject-packet-btn"
         onClick={handleInject}
         disabled={isInjecting}
-        className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl font-mono text-sm font-bold transition-all duration-200 relative overflow-hidden"
+        whileHover={!isInjecting ? { scale: 1.02, filter: 'brightness(1.15)' } : {}}
+        whileTap={!isInjecting ? { scale: 0.98 } : {}}
+        className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl font-mono text-sm font-bold transition-colors duration-200 relative overflow-hidden"
         style={{
           background: isInjecting
             ? 'rgba(16,185,129,0.1)'
@@ -411,7 +420,7 @@ export default function PacketInjector({ onResult }: PacketInjectorProps) {
             Inject Packet
           </>
         )}
-      </button>
+      </motion.button>
 
       {/* Result Badge */}
       {lastResult && (

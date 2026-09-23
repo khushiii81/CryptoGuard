@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, Trash2, PauseCircle, PlayCircle, ChevronDown } from 'lucide-react';
 import { useFirewallStore } from '@/store/firewallStore';
 import { SyslogEntry, SyslogLevel } from '@/lib/firewall-engine';
@@ -161,13 +162,22 @@ export default function SyslogTerminal({ maxHeight = '320px', showHeader = true 
           </div>
         ) : (
           <div className="flex flex-col">
-            {[...filtered].reverse().map(entry => (
-              <SyslogLine
-                key={entry.id}
-                entry={entry}
-                highlight={newIds.has(entry.id)}
-              />
-            ))}
+            <AnimatePresence initial={false}>
+              {[...filtered].reverse().map(entry => (
+                <motion.div
+                  key={entry.id}
+                  initial={{ opacity: 0, x: -20, height: 0, marginBottom: 0 }}
+                  animate={{ opacity: 1, x: 0, height: 'auto', marginBottom: 4 }}
+                  exit={{ opacity: 0, scale: 0.9, height: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                >
+                  <SyslogLine
+                    entry={entry}
+                    highlight={newIds.has(entry.id)}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         )}
       </div>

@@ -10,9 +10,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 15, scale: 0.98, filter: 'blur(4px)' }}
+      initial={{ opacity: 0, y: 20, scale: 0.99, filter: 'blur(8px)' }}
       animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-      transition={{ type: 'spring', stiffness: 220, damping: 20, duration: 0.5 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className="flex-1 flex flex-col"
     >
       {children}

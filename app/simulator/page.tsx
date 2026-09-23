@@ -164,9 +164,9 @@ export default function SimulatorPage() {
 
             {/* 3D Canvas */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
             >
               <NetworkCanvas lastResult={lastResult} />
             </motion.div>
@@ -174,17 +174,17 @@ export default function SimulatorPage() {
             {/* Stats + Syslog row */}
             <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.15 }}
+                initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
               >
                 <SyslogTerminal maxHeight="240px" showHeader />
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
                 className="md:w-72"
               >
                 <LiveStatsPanel />
@@ -197,9 +197,9 @@ export default function SimulatorPage() {
 
             {/* Packet Injector */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              initial={{ opacity: 0, x: 30, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
             >
               <PacketInjector onResult={setLastResult} />
             </motion.div>
@@ -220,9 +220,9 @@ export default function SimulatorPage() {
 
             {/* Connection State Table */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
+              initial={{ opacity: 0, x: 30, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
               className="rounded-2xl border border-[#1A2540] overflow-hidden hud-corner"
               style={{ background: '#080C18' }}
             >

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight, Zap, Shield, Lock, Activity, Network, GitBranch, Terminal, Eye, Server, Database, Globe } from 'lucide-react';
+import ScrollReveal from '@/components/ScrollReveal';
 
 export const metadata: Metadata = {
   title: 'Firewall Simulator — How packet filtering really works',
@@ -40,7 +41,7 @@ export default function HomePage() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
           {/* Left: text */}
-          <div>
+          <ScrollReveal>
 
             <h1 className="font-mono font-black text-5xl lg:text-6xl leading-[1.05] mb-6">
               <span className="block text-white">Network</span>
@@ -93,10 +94,10 @@ export default function HomePage() {
                 <span className="font-mono text-[10px] font-bold text-[#10B981]">OWASP ALIGNED</span>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Right: Terminal-style architecture diagram */}
-          <div className="relative hidden lg:block">
+          <ScrollReveal delay={0.2} className="relative hidden lg:block">
             <div className="rounded-2xl overflow-hidden border border-slate-800"
               style={{ background: '#060A14' }}>
               {/* Terminal chrome */}
@@ -151,7 +152,7 @@ export default function HomePage() {
               ZERO-TRUST READY
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* ── Features ── */}
@@ -164,9 +165,10 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((f, i) => (
-            <div key={i}
-              className="group relative p-5 rounded-2xl border border-slate-800 transition-all duration-300 hover:border-slate-700 overflow-hidden"
-              style={{ background: 'linear-gradient(135deg, #0A0F1E 0%, #070B16 100%)' }}>
+            <ScrollReveal key={i} delay={i * 0.1}>
+              <div
+                className="group relative p-5 rounded-2xl border border-slate-800 transition-all duration-300 hover:border-slate-700 overflow-hidden"
+                style={{ background: 'linear-gradient(135deg, #0A0F1E 0%, #070B16 100%)' }}>
               {/* Corner accent */}
               <div className="absolute top-0 right-0 w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity"
                 style={{ background: `radial-gradient(circle at top right, ${f.color}10 0%, transparent 70%)` }} />
@@ -186,14 +188,16 @@ export default function HomePage() {
               </h3>
               <p className="text-slate-500 text-xs leading-relaxed font-sans">{f.desc}</p>
             </div>
+          </ScrollReveal>
           ))}
         </div>
       </section>
 
       {/* ── Attack Presets CTA ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="relative rounded-2xl overflow-hidden border border-slate-800 p-8 lg:p-12"
-          style={{ background: 'linear-gradient(135deg, #0A0F1E 0%, #060A14 100%)' }}>
+        <ScrollReveal>
+          <div className="relative rounded-2xl overflow-hidden border border-slate-800 p-8 lg:p-12"
+            style={{ background: 'linear-gradient(135deg, #0A0F1E 0%, #060A14 100%)' }}>
 
           {/* Hex grid inside */}
           <svg className="absolute inset-0 w-full h-full opacity-[0.04]">
@@ -250,7 +254,8 @@ export default function HomePage() {
               Edit Rules <ChevronRight className="w-3 h-3" />
             </Link>
           </div>
-        </div>
+          </div>
+        </ScrollReveal>
       </section>
     </div>
   );

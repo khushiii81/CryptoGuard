@@ -380,6 +380,7 @@ export default function NetworkCanvas({ lastResult }: NetworkCanvasProps) {
   const [activePacket, setActivePacket] = useState<{
     id: string;
     path: string[];
+    effectivePath: string[];
     gateId: string;
     action: 'ALLOW' | 'DENY' | 'REJECT' | 'STATEFUL';
   } | null>(null);
@@ -415,7 +416,12 @@ export default function NetworkCanvas({ lastResult }: NetworkCanvasProps) {
     const srcNode = rawPath[0];
     setGlowingNodes(new Set([srcNode]));
 
-    setActivePacket({ id, path: rawPath, gateId, action });
+    const gateIndex = rawPath.indexOf(gateId);
+    const effectivePath = (action === 'ALLOW' || action === 'STATEFUL') 
+      ? rawPath 
+      : rawPath.slice(0, gateIndex + 1);
+
+    setActivePacket({ id, path: rawPath, effectivePath, gateId, action });
 
     if (action === 'DENY' || action === 'REJECT') {
       setTimeout(() => setBlockingGate(gateId), 500);
@@ -523,9 +529,7 @@ export default function NetworkCanvas({ lastResult }: NetworkCanvasProps) {
           {CONNECTIONS.map(([a, b], i) => {
             const na = NODES[a as NodeKey];
             const nb = NODES[b as NodeKey];
-            const mx = (na.x + nb.x) / 2;
-            const my = (na.y + nb.y) / 2;
-            const isOnActivePath = activePacket?.path.includes(a) && activePacket?.path.includes(b);
+            const isOnActivePath = activePacket?.effectivePath.includes(a) && activePacket?.effectivePath.includes(b);
             return (
               <g key={i}>
                 {/* Background line */}
@@ -556,7 +560,7 @@ export default function NetworkCanvas({ lastResult }: NetworkCanvasProps) {
               node={node}
               isGate={isFirewall(id)}
               isActive={glowingNodes.has(id)}
-              isPulsing={activePacket?.path.includes(id) ?? false}
+              isPulsing={activePacket?.effectivePath.includes(id) ?? false}
               isBlocking={blockingGate === id}
             />
           ))}

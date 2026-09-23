@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 import { useFirewallStore } from '@/store/firewallStore';
 import RuleManager from '@/components/RuleManager';
 import { Shield, AlertTriangle, CheckCircle, Info } from 'lucide-react';
@@ -27,7 +28,7 @@ export default function PoliciesPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <img src="/icon.png" alt="Logo" className="w-5 h-5 rounded-md drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
+                <Image src="/icon.png" alt="Logo" width={20} height={20} className="w-5 h-5 rounded-md drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
                 <h1 className="font-mono text-2xl font-bold text-white">Rule Base</h1>
               </div>
               <p className="text-slate-400 text-sm">
@@ -39,7 +40,7 @@ export default function PoliciesPage() {
             {/* Summary chips */}
             <div className="flex flex-wrap gap-2 sm:ml-auto">
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[rgba(0,240,255,0.06)] border border-[rgba(0,240,255,0.2)]">
-                <img src="/icon.png" alt="Logo" className="w-3.5 h-3.5 rounded-sm drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
+                <Image src="/icon.png" alt="Logo" width={14} height={14} className="w-3.5 h-3.5 rounded-sm drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
                 <span className="font-mono text-xs text-[#00F0FF]">{rules.length} rules</span>
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[rgba(16,185,129,0.06)] border border-[rgba(16,185,129,0.2)]">

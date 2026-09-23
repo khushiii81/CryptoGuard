@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Shield, Github, ExternalLink } from 'lucide-react';
 
 export default function Footer() {
@@ -22,7 +23,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <img src="/icon.png" alt="CryptoGuard Logo" className="w-6 h-6 rounded-md drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
+              <Image src="/icon.png" alt="CryptoGuard Logo" width={24} height={24} className="w-6 h-6 rounded-md drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
               <span className="font-mono font-bold text-white">
                 Crypto<span className="text-[#00F0FF]">Guard</span>
               </span>

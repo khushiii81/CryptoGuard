@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import {
   DndContext,
   closestCenter,
@@ -325,7 +326,7 @@ export default function RuleManager() {
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2">
-          <img src="/icon.png" alt="Logo" className="w-4 h-4 rounded-sm drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
+          <Image src="/icon.png" alt="Logo" width={16} height={16} className="w-4 h-4 rounded-sm drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
           <span className="font-mono text-sm font-bold text-white">Rule Base</span>
           <span className="font-mono text-xs text-slate-500">({rules.length} rules)</span>
         </div>

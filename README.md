@@ -1,6 +1,6 @@
 # CryptoGuard: Next-Gen Firewall Simulator
 
-![CryptoGuard Cover](public/logo.png)
+![CryptoGuard Cover](public/icon.png)
 
 CryptoGuard is an educational, fully-interactive Next-Generation Firewall (NGFW) simulator built with Next.js, React, and Framer Motion. It visually demonstrates how modern stateful firewalls handle network packets, enforce access control policies, and manage sessions in real-time.
 

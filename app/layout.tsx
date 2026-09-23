@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import AnimatedBackground from '@/components/AnimatedBackground';
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -97,6 +98,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-screen flex flex-col bg-obsidian text-slate-200">
+        <NextTopLoader color="#00F0FF" showSpinner={false} shadow="0 0 10px #00F0FF,0 0 5px #00F0FF" />
         <AnimatedBackground />
         <Header />
         <main className="flex-1 pt-14">{children}</main>

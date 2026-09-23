@@ -39,6 +39,7 @@ const CONNECTIONS = [
   ['internet', 'extFw'],
   ['extFw', 'dmzWeb'],
   ['extFw', 'dmzMail'],
+  ['extFw', 'intFw'],
   ['dmzWeb', 'intFw'],
   ['dmzMail', 'intFw'],
   ['intFw', 'lanDb'],
@@ -246,7 +247,7 @@ function PacketAnim({ path, gateId, action, onDone }: PacketAnimProps) {
   return (
     <>
       {/* The main packet orb */}
-      {phase === 'travel' && (
+      {(phase === 'travel' || (phase === 'impact' && (action === 'ALLOW' || action === 'STATEFUL'))) && (
         <motion.g animate={controls} initial={{ x: startNode.x, y: startNode.y }}>
           {/* Glow */}
           <motion.circle
